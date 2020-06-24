@@ -34,9 +34,17 @@ const xpath = {
   await page.goto(URL, { waitUntil: "domcontentloaded" });
 
   // 基本情報
-  await typeText(page, getInputXPath('メールアドレス'), csvData[0][0]);
-  await typeText(page, getInputXPath('Student'), csvData[0][1]);
-  await typeText(page, getInputXPath('Name'), csvData[0][2]);
+  // await typeText(page, getInputXPath('メールアドレス'), csvData[0][0]);
+  // await typeText(page, getInputXPath('Student'), csvData[0][1]);
+  // await typeText(page, getInputXPath('Name'), csvData[0][2]);
+
+  const basicInfoXPath = '//div[@class="freebirdFormviewerViewItemList"]//div/preceding-sibling::input';
+  await page.waitForXPath(basicInfoXPath);
+  const basicInfoElements = await page.$x(basicInfoXPath);
+  for(let i = 0; i < 3; ++i) {
+    await page.waitFor(200);
+    await basicInfoElements[i].type(csvData[0][i]);
+  }
 
   /** 手動で学籍番号を入力してもらう */
   await page.waitForXPath("//div[contains(text(), '1-1')]", {visible: true})
