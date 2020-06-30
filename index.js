@@ -1,7 +1,7 @@
 const fs = require('fs');
 const puppeteer = require("puppeteer");
 const { exit } = require('process');
-const URL = "https://docs.google.com/forms/d/e/1FAIpQLSeqYzCNxVrlE3GPXCo24dXXhbAPmpEgVXaWUAIuonGtxXGErg/viewform";
+const URL = "https://docs.google.com/forms/d/e/1FAIpQLSds40IfsLk-XLGZ0BSlUeFv5wI79HsdTyQpWF5hcRtDObOuJQ/viewform?usp=send_form";
 
 const VIEWPORT = {
   width: 1280,
@@ -75,6 +75,7 @@ async function clickByXPath(page, xpath) {
 
 async function fillUpOnePage(page, textArray) {
   await page.waitForXPath(xpath.inputs);
+  await page.waitFor(500)
   const elements = await page.$x(xpath.inputs);
   if(textArray.length != elements.length) {
     console.error("csvがおかしいです");
